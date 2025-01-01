@@ -3,9 +3,9 @@ package com.ofeksag.book_management.controller;
 import com.ofeksag.book_management.entity.Book;
 import com.ofeksag.book_management.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,5 +23,11 @@ public class BookController {
     @GetMapping
     public List<Book> getAllBooks() {
         return bookService.getAllBooks();
+    }
+
+    @PostMapping
+    public ResponseEntity<Book> addNewBook(@RequestBody Book book) {
+        Book savedBook = bookService.addNewBook(book);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedBook);
     }
 }

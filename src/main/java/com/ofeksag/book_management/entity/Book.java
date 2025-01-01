@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 
 
-@NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Builder
@@ -25,7 +24,8 @@ public class Book {
     private String author;
     private LocalDate publishedDate;
     private String isbn;
-
+    public Book() {
+    }
 
     @Builder
     public Book(String title, String author, LocalDate publishedDate, String isbn) {
