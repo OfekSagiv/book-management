@@ -22,6 +22,23 @@ public class BookService {
     }
 
     public Book addNewBook(Book book) {
+        if (bookRepository.existsByIsbn(book.getIsbn())) {
+            System.out.println("The book with ISBN " + book.getIsbn() + " already exists in the system.");
+            return null;
+        }
         return bookRepository.save(book);
+    }
+
+
+    public Book updateBook(Long id, Book book) {
+        Book existingBook = bookRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Book not found with id " + id));
+
+        existingBook.setTitle(book.getTitle());
+        existingBook.setAuthor(book.getAuthor());
+        existingBook.setPublishedDate(book.getPublishedDate());
+        existingBook.setIsbn(book.getIsbn());
+
+        return bookRepository.save(existingBook);
     }
 }

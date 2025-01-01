@@ -6,6 +6,8 @@ import com.ofeksag.book_management.repository.BookRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
+
 @Component
 public class DataInitializer implements CommandLineRunner {
 
@@ -17,8 +19,18 @@ public class DataInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        bookRepository.save(new Book("Spring Boot Basics", "John Doe"));
-        bookRepository.save(new Book("Advanced Java", "Jane Smith"));
+        bookRepository.save(new Book(
+                "Harry Potter and the Sorcerer's Stone",
+                "J.K. Rowling",
+                LocalDate.of(1997, 6, 26),
+                "978-0747532699"));
+
+        bookRepository.save(new Book(
+                "To Kill a Mockingbird",
+                "Harper Lee",
+                LocalDate.of(1960, 7, 11),
+                "978-0061120084"));
+
         System.out.println("Sample books added to the database.");
     }
 }
