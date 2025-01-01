@@ -34,6 +34,48 @@ public class Book {
         this.publishedDate = publishedDate;
         this.isbn = isbn;
     }
+    public Book(String title, String author) {
+        this.title = title;
+        this.author = author;
+    }
 
+    public Long getId() {
+        return id;
+    }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public LocalDate getPublishedDate() {
+        return publishedDate;
+    }
+
+    public String getIsbn() {
+        return isbn;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public void setPublishedDate(LocalDate publishedDate) {
+        this.publishedDate = publishedDate;
+    }
+
+    public void setIsbn(String isbn) {
+        this.isbn = isbn;
+    }
 }
