@@ -1,5 +1,4 @@
 package com.ofeksag.book_management.controller;
-
 import com.ofeksag.book_management.entity.Book;
 import com.ofeksag.book_management.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,5 +35,15 @@ public class BookController {
     public ResponseEntity<Book> updateBook(@PathVariable Long id, @RequestBody Book book) {
         Book updatedBook = bookService.updateBook(id, book);
         return ResponseEntity.status(HttpStatus.OK).body(updatedBook);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteBook(@PathVariable Long id) {
+        boolean isDeleted = bookService.deleteBook(id);
+        if (isDeleted) {
+            return ResponseEntity.ok("Book with ID " + id + " deleted successfully.");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Book with ID " + id + " not found.");
+        }
     }
 }
