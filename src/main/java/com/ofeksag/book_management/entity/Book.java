@@ -6,8 +6,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.NoArgsConstructor;
-
 import java.time.LocalDate;
 
 
@@ -24,6 +22,7 @@ public class Book {
     private String author;
     private LocalDate publishedDate;
     private String isbn;
+
     public Book() {
     }
 
@@ -34,6 +33,7 @@ public class Book {
         this.publishedDate = publishedDate;
         this.isbn = isbn;
     }
+
     public Book(String title, String author) {
         this.title = title;
         this.author = author;

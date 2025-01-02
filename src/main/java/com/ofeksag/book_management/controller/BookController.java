@@ -1,8 +1,9 @@
 package com.ofeksag.book_management.controller;
+
+import com.ofeksag.book_management.dto.BookDTO;
 import com.ofeksag.book_management.entity.Book;
 import com.ofeksag.book_management.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,25 +26,17 @@ public class BookController {
     }
 
     @PostMapping
-    public ResponseEntity<Book> addNewBook(@RequestBody Book book) {
-        Book savedBook = bookService.addNewBook(book);
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedBook);
+    public ResponseEntity<BookDTO> addNewBook(@RequestBody Book book) {
+        return bookService.addNewBookAndReturnResponse(book);
     }
 
-
     @PutMapping("/{id}")
-    public ResponseEntity<Book> updateBook(@PathVariable Long id, @RequestBody Book book) {
-        Book updatedBook = bookService.updateBook(id, book);
-        return ResponseEntity.status(HttpStatus.OK).body(updatedBook);
+    public ResponseEntity<BookDTO> updateBook(@PathVariable Long id, @RequestBody Book book) {
+        return bookService.updateBookAndReturnResponse(id, book);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteBook(@PathVariable Long id) {
-        boolean isDeleted = bookService.deleteBook(id);
-        if (isDeleted) {
-            return ResponseEntity.ok("Book with ID " + id + " deleted successfully.");
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Book with ID " + id + " not found.");
-        }
+    public ResponseEntity<BookDTO> deleteBook(@PathVariable Long id) {
+        return bookService.deleteBookAndReturnResponse(id);
     }
 }
