@@ -26,4 +26,10 @@ public class GlobalExceptionHandler {
         BookDTO response = new BookDTO(ex.getMessage());
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(BookIdNotAllowedException.class)
+    public ResponseEntity<BookDTO> handleBookIdNotAllowedException(BookIdNotAllowedException ex) {
+        BookDTO response = new BookDTO(ex.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
 }

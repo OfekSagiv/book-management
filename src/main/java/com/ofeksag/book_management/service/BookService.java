@@ -33,9 +33,6 @@ public class BookService {
         if (bookRepository.existsByIsbn(book.getIsbn()))
             throw new BookAlreadyExistsException("The book with ISBN " + book.getIsbn() + " already exists in the system.");
 
-        if (book.getId() != null && bookRepository.existsById(book.getId()))
-            throw new BookAlreadyExistsException("The book with ID " + book.getId() + " already exists in the system.");
-
         return bookRepository.save(book);
     }
 
