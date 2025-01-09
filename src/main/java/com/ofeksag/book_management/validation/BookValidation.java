@@ -9,7 +9,7 @@ public class BookValidation {
 
     public void validateBookFields(Book book) {
         if (book.getId() != null) {
-            throw new BookIdNotAllowedException("ID must not be provided when creating a new book.");
+            throw new BookIdNotAllowedException("ID must not be provided when creating a new book or updating an existing one.");
         }
         if (book.getIsbn() == null || book.getIsbn().trim().isEmpty()) {
             throw new IllegalArgumentException("ISBN must not be empty.");
