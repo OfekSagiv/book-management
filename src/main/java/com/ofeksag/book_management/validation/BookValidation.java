@@ -2,8 +2,7 @@ package com.ofeksag.book_management.validation;
 
 import com.ofeksag.book_management.entity.Book;
 import com.ofeksag.book_management.exception.BookIdNotAllowedException;
-import com.ofeksag.book_management.exception.RequestBodyNotAllowedException;
-import jakarta.servlet.http.HttpServletRequest;
+
 import org.springframework.stereotype.Component;
 
 @Component
@@ -28,11 +27,5 @@ public class BookValidation {
     }
 
 
-    public void validateNoBodyForGetDelete(HttpServletRequest request) {
-        String method = request.getMethod();
-        if (("GET".equalsIgnoreCase(method) || "DELETE".equalsIgnoreCase(method))
-                && request.getContentLength() > 0) {
-            throw new RequestBodyNotAllowedException("Body is not allowed for " + method + " requests.");
-        }
-    }
+
 }

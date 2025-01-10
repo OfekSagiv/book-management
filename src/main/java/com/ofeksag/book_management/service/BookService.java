@@ -22,8 +22,8 @@ public class BookService {
         this.bookValidation = bookValidation;
     }
 
-    public List<Book> getAllBooks(HttpServletRequest request) {
-        bookValidation.validateNoBodyForGetDelete(request);
+    public List<Book> getAllBooks() {
+
         return bookRepository.findAll();
     }
 
@@ -41,8 +41,8 @@ public class BookService {
         return new BookDTO("Book added successfully.", saved.getId());
     }
 
-    public void deleteBook(Long id, HttpServletRequest request) {
-        bookValidation.validateNoBodyForGetDelete(request);
+    public void deleteBook(Long id) {
+
 
         if (!bookRepository.existsById(id))
             throw new BookNotFoundException("Book with ID " + id + " not found.");
@@ -50,8 +50,8 @@ public class BookService {
         bookRepository.deleteById(id);
     }
 
-    public BookDTO deleteBookAndReturnDTO(Long id, HttpServletRequest request) {
-        deleteBook(id, request);
+    public BookDTO deleteBookAndReturnDTO(Long id) {
+        deleteBook(id);
         return new BookDTO("Book with ID " + id + " deleted successfully.", id);
     }
 

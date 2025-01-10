@@ -3,7 +3,7 @@ package com.ofeksag.book_management.controller;
 import com.ofeksag.book_management.dto.BookDTO;
 import com.ofeksag.book_management.entity.Book;
 import com.ofeksag.book_management.service.BookService;
-import jakarta.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,8 +23,8 @@ public class BookController {
     }
 
     @GetMapping
-    public List<Book> getAllBooks(HttpServletRequest request) {
-        return bookService.getAllBooks(request);
+    public List<Book> getAllBooks() {
+        return bookService.getAllBooks();
     }
 
     @PostMapping
@@ -41,8 +41,8 @@ public class BookController {
 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<BookDTO> deleteBook(@PathVariable Long id, HttpServletRequest request) {
-        BookDTO response = bookService.deleteBookAndReturnDTO(id, request);
+    public ResponseEntity<BookDTO> deleteBook(@PathVariable Long id) {
+        BookDTO response = bookService.deleteBookAndReturnDTO(id);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
