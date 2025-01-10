@@ -1,5 +1,6 @@
 package com.ofeksag.book_management.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -12,6 +13,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Entity
 @Builder
+@JsonIgnoreProperties(ignoreUnknown = false)
 public class Book {
 
     @Id

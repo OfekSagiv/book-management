@@ -5,6 +5,7 @@ import com.ofeksag.book_management.exception.BookAlreadyExistsException;
 import com.ofeksag.book_management.exception.BookNotFoundException;
 import com.ofeksag.book_management.repository.BookRepository;
 import com.ofeksag.book_management.validation.BookValidation;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Service;
 import com.ofeksag.book_management.entity.Book;
 
@@ -13,8 +14,6 @@ import java.util.Optional;
 
 @Service
 public class BookService {
-
-
     private final BookRepository bookRepository;
     private final BookValidation bookValidation;
 
@@ -23,7 +22,8 @@ public class BookService {
         this.bookValidation = bookValidation;
     }
 
-    public List<Book> getAllBooks() {
+    public List<Book> getAllBooks(HttpServletRequest request) {
+        bookValidation.validateNoBodyForGetDelete(request);
         return bookRepository.findAll();
     }
 
@@ -41,15 +41,17 @@ public class BookService {
         return new BookDTO("Book added successfully.", saved.getId());
     }
 
-    public void deleteBook(Long id) {
+    public void deleteBook(Long id, HttpServletRequest request) {
+        bookValidation.validateNoBodyForGetDelete(request);
+
         if (!bookRepository.existsById(id))
             throw new BookNotFoundException("Book with ID " + id + " not found.");
 
         bookRepository.deleteById(id);
     }
 
-    public BookDTO deleteBookAndReturnDTO(Long id) {
-        deleteBook(id);
+    public BookDTO deleteBookAndReturnDTO(Long id, HttpServletRequest request) {
+        deleteBook(id, request);
         return new BookDTO("Book with ID " + id + " deleted successfully.", id);
     }
 
@@ -72,7 +74,6 @@ public class BookService {
 
         return bookRepository.save(existingBook);
     }
-
 
     public BookDTO updateBookAndReturnDTO(Long id, Book newBook) {
         Book updated = updateBook(id, newBook);
