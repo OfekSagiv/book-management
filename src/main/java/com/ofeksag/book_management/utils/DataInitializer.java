@@ -31,6 +31,6 @@ public class DataInitializer implements CommandLineRunner {
                 LocalDate.of(1960, 7, 11),
                 "978-0061120084"));
 
-        System.out.println("Sample books added to the database.");
     }
 }
+
