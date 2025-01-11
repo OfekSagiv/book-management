@@ -4,15 +4,19 @@ import com.ofeksag.book_management.dto.BookDTO;
 import com.ofeksag.book_management.entity.Book;
 import com.ofeksag.book_management.service.BookService;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/books")
+@Validated
 public class BookController {
 
     private final BookService bookService;
@@ -28,13 +32,13 @@ public class BookController {
     }
 
     @PostMapping
-    public ResponseEntity<BookDTO> addNewBook(@RequestBody Book book) {
+    public ResponseEntity<BookDTO> addNewBook(@Valid  @NotNull @RequestBody Book book) {
         BookDTO response = bookService.addNewBookAndReturnDTO(book);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<BookDTO> updateBook(@PathVariable Long id, @RequestBody Book book) {
+    public ResponseEntity<BookDTO> updateBook(@PathVariable Long id,@Valid @NotNull @RequestBody Book book) {
         BookDTO response = bookService.updateBookAndReturnDTO(id, book);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
