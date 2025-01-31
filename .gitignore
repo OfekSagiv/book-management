@@ -236,3 +236,4 @@ mvnw.cmd
 
 # Ignore IntelliJ IDEA files
 .idea/
+/project_structure.txt
