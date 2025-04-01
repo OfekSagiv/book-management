@@ -1,11 +1,10 @@
 package com.ofeksag.book_management.service;
 
-import com.ofeksag.book_management.dto.BookDTO;
+import com.ofeksag.book_management.dto.BookResponseDTO;
 import com.ofeksag.book_management.exception.BookAlreadyExistsException;
 import com.ofeksag.book_management.exception.BookNotFoundException;
 import com.ofeksag.book_management.repository.BookRepository;
 import com.ofeksag.book_management.validation.BookValidation;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Service;
 import com.ofeksag.book_management.entity.Book;
 
@@ -23,7 +22,6 @@ public class BookService {
     }
 
     public List<Book> getAllBooks() {
-
         return bookRepository.findAll();
     }
 
@@ -31,28 +29,27 @@ public class BookService {
         bookValidation.validateBookFields(book);
 
         if (bookRepository.existsByIsbn(book.getIsbn()))
-            throw new BookAlreadyExistsException("The book with ISBN " + book.getIsbn() + " already exists in the system.");
+            throw new BookAlreadyExistsException("The book with ISBN " + book.getIsbn()
+                    + " already exists in the system.");
 
         return bookRepository.save(book);
     }
 
-    public BookDTO addNewBookAndReturnDTO(Book book) {
+    public BookResponseDTO addNewBookAndReturnDTO(Book book) {
         Book saved = addNewBook(book);
-        return new BookDTO("Book added successfully.", saved.getId());
+        return new BookResponseDTO("Book added successfully.", saved.getId());
     }
 
     public void deleteBook(Long id) {
-
-
         if (!bookRepository.existsById(id))
             throw new BookNotFoundException("Book with ID " + id + " not found.");
 
         bookRepository.deleteById(id);
     }
 
-    public BookDTO deleteBookAndReturnDTO(Long id) {
+    public BookResponseDTO deleteBookAndReturnDTO(Long id) {
         deleteBook(id);
-        return new BookDTO("Book with ID " + id + " deleted successfully.", id);
+        return new BookResponseDTO("Book with ID " + id + " deleted successfully.", id);
     }
 
     public Book updateBook(Long id, Book newBook) {
@@ -75,8 +72,8 @@ public class BookService {
         return bookRepository.save(existingBook);
     }
 
-    public BookDTO updateBookAndReturnDTO(Long id, Book newBook) {
+    public BookResponseDTO updateBookAndReturnDTO(Long id, Book newBook) {
         Book updated = updateBook(id, newBook);
-        return new BookDTO("Book updated successfully.", updated.getId());
+        return new BookResponseDTO("Book updated successfully.", updated.getId());
     }
 }

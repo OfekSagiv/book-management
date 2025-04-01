@@ -3,16 +3,16 @@ package com.ofeksag.book_management.dto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class BookDTO {
+public class BookResponseDTO {
     private String message;
     private Long id;
 
-    public BookDTO(String message, Long id) {
+    public BookResponseDTO(String message, Long id) {
         this.message = message;
         this.id = id;
     }
 
-    public BookDTO(String message) {
+    public BookResponseDTO(String message) {
         this.message = message;
         this.id = null;
     }

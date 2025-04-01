@@ -224,10 +224,6 @@ buildNumber.properties
 
 # End of https://www.toptal.com/developers/gitignore/api/maven,java,macos,intellij
 
-# Ignore Maven wrapper files
-.mvn/
-mvnw
-mvnw.cmd
 
 # Ignore Git attributes
 .gitattributes

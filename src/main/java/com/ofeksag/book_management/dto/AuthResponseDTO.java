@@ -1,15 +1,12 @@
 package com.ofeksag.book_management.dto;
 
-
-public class AuthResponse {
+public class AuthResponseDTO {
     private String token;
 
-    // Constructor
-    public AuthResponse(String token) {
+    public AuthResponseDTO(String token) {
         this.token = token;
     }
 
-    // Getter
     public String getToken() {
         return token;
     }

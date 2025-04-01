@@ -1,13 +1,9 @@
 package com.ofeksag.book_management.dto;
 
-
-
-
-public class AuthRequest {
+public class AuthRequestDTO {
     private String username;
     private String password;
 
-    // Getter and Setter for username
     public String getUsername() {
         return username;
     }
@@ -16,7 +12,6 @@ public class AuthRequest {
         this.username = username;
     }
 
-    // Getter and Setter for password
     public String getPassword() {
         return password;
     }

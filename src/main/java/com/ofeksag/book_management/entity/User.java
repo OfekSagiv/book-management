@@ -1,7 +1,7 @@
 package com.ofeksag.book_management.entity;
 
-
 import jakarta.persistence.*;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -19,13 +19,11 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    // אם תרצה לנהל תפקידים, למשל:
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
     @Column(name = "role")
     private Set<String> roles = new HashSet<>();
 
-    // Constructors
     public User() {
     }
 
@@ -35,7 +33,6 @@ public class User {
         this.roles = roles;
     }
 
-    // Getters & Setters
     public Long getId() {
         return id;
     }

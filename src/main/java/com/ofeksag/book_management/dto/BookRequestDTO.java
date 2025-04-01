@@ -1,4 +1,5 @@
 package com.ofeksag.book_management.dto;
+
 import jakarta.validation.constraints.NotBlank;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.validation.constraints.NotNull;

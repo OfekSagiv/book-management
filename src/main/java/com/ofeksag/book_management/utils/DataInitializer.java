@@ -1,7 +1,5 @@
 package com.ofeksag.book_management.utils;
 
-
-
 import com.ofeksag.book_management.entity.Book;
 import com.ofeksag.book_management.entity.User;
 import com.ofeksag.book_management.repository.BookRepository;
@@ -9,7 +7,6 @@ import com.ofeksag.book_management.repository.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-
 import java.time.LocalDate;
 import java.util.Set;
 
@@ -20,7 +17,8 @@ public class DataInitializer implements CommandLineRunner {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public DataInitializer(BookRepository bookRepository, UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public DataInitializer(BookRepository bookRepository, UserRepository userRepository,
+                           PasswordEncoder passwordEncoder) {
         this.bookRepository = bookRepository;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
@@ -28,7 +26,6 @@ public class DataInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        // אתחול ספרים
         bookRepository.save(new Book(
                 "Harry Potter and the Sorcerer's Stone",
                 "J.K. Rowling",
@@ -92,7 +89,7 @@ public class DataInitializer implements CommandLineRunner {
         if (userRepository.findByUsername("admin").isEmpty()) {
             User admin = new User();
             admin.setUsername("admin");
-            admin.setPassword(passwordEncoder.encode("adminpassword"));
+            admin.setPassword(passwordEncoder.encode("pass"));
             admin.setRoles(Set.of("ROLE_ADMIN"));
             userRepository.save(admin);
         }
@@ -100,7 +97,7 @@ public class DataInitializer implements CommandLineRunner {
         if (userRepository.findByUsername("user").isEmpty()) {
             User user = new User();
             user.setUsername("user");
-            user.setPassword(passwordEncoder.encode("userpassword"));
+            user.setPassword(passwordEncoder.encode("pass"));
             user.setRoles(Set.of("ROLE_USER"));
             userRepository.save(user);
         }

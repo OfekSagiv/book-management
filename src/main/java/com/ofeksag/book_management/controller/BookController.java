@@ -1,9 +1,8 @@
 package com.ofeksag.book_management.controller;
 
-import com.ofeksag.book_management.dto.BookDTO;
+import com.ofeksag.book_management.dto.BookResponseDTO;
 import com.ofeksag.book_management.entity.Book;
 import com.ofeksag.book_management.service.BookService;
-
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,22 +34,22 @@ public class BookController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
-    public ResponseEntity<BookDTO> addNewBook(@Valid  @NotNull @RequestBody Book book) {
-        BookDTO response = bookService.addNewBookAndReturnDTO(book);
+    public ResponseEntity<BookResponseDTO> addNewBook(@Valid @NotNull @RequestBody Book book) {
+        BookResponseDTO response = bookService.addNewBookAndReturnDTO(book);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/{id}")
-    public ResponseEntity<BookDTO> updateBook(@PathVariable Long id,@Valid @NotNull @RequestBody Book book) {
-        BookDTO response = bookService.updateBookAndReturnDTO(id, book);
+    public ResponseEntity<BookResponseDTO> updateBook(@PathVariable Long id, @Valid @NotNull @RequestBody Book book) {
+        BookResponseDTO response = bookService.updateBookAndReturnDTO(id, book);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
-    public ResponseEntity<BookDTO> deleteBook(@PathVariable Long id) {
-        BookDTO response = bookService.deleteBookAndReturnDTO(id);
+    public ResponseEntity<BookResponseDTO> deleteBook(@PathVariable Long id) {
+        BookResponseDTO response = bookService.deleteBookAndReturnDTO(id);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

@@ -11,8 +11,8 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import java.time.LocalDate;
 
+import java.time.LocalDate;
 
 @AllArgsConstructor
 @Entity
@@ -23,7 +23,6 @@ public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
 
     @JsonProperty(required = true)
     @NotNull(message = "Title is required")
@@ -44,8 +43,6 @@ public class Book {
     @NotBlank(message = "ISBN cannot be blank")
     @Pattern(regexp = "\\d{13}", message = "ISBN must be a 13-digit number")
     private String isbn;
-
-
 
     public Book() {
     }

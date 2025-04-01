@@ -4,7 +4,6 @@ import com.ofeksag.book_management.exception.*;
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-
 import javax.crypto.spec.SecretKeySpec;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -28,8 +27,8 @@ public class JwtUtil {
         String secret;
         try {
             secret = loadSecretFromFile(".env");
-        } catch (EnvFileNotFoundException | SecretKeyNotFoundException | EmptySecretKeyException | SecretKeyTooShortException e) {
-            // Log the error (ideally using a logger) and rethrow to stop application startup
+        } catch (EnvFileNotFoundException | SecretKeyNotFoundException
+                 | EmptySecretKeyException | SecretKeyTooShortException e) {
             System.err.println("Error loading secret key: " + e.getMessage());
             throw e;
         }
@@ -41,7 +40,6 @@ public class JwtUtil {
         try {
             Path path = Paths.get(filePath);
             if (!Files.exists(path)) {
-                // Generate a new secret key and write it to the file
                 byte[] randomBytes = new byte[32];
                 new SecureRandom().nextBytes(randomBytes);
                 String generatedSecret = Base64.getEncoder().encodeToString(randomBytes);
@@ -50,7 +48,6 @@ public class JwtUtil {
 
                 return generatedSecret;
             }
-            // File exists, read all lines and search for the SECRET_KEY
             List<String> lines = Files.readAllLines(path);
             Optional<String> secretLine = lines.stream()
                     .filter(line -> line.startsWith("SECRET_KEY="))
