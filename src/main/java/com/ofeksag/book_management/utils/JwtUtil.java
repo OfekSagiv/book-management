@@ -1,25 +1,74 @@
 package com.ofeksag.book_management.utils;
 
+import com.ofeksag.book_management.exception.*;
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.spec.SecretKeySpec;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.Key;
-import java.util.Date;
+import java.security.SecureRandom;
 import java.util.Base64;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 
 @Component
 public class JwtUtil {
-
     private final Key secretKey;
     private final long jwtExpirationInMs;
 
-    public JwtUtil(@Value("${jwt.secret}") String secret, @Value("${jwt.expiration}") long jwtExpirationInMs) {
+    public JwtUtil(@Value("${jwt.expiration}") long jwtExpirationInMs) {
+        this.jwtExpirationInMs = jwtExpirationInMs;
+        String secret;
+        try {
+            secret = loadSecretFromFile(".env");
+        } catch (EnvFileNotFoundException | SecretKeyNotFoundException | EmptySecretKeyException | SecretKeyTooShortException e) {
+            // Log the error (ideally using a logger) and rethrow to stop application startup
+            System.err.println("Error loading secret key: " + e.getMessage());
+            throw e;
+        }
         byte[] keyBytes = Base64.getEncoder().encode(secret.getBytes());
         this.secretKey = new SecretKeySpec(keyBytes, SignatureAlgorithm.HS256.getJcaName());
-        this.jwtExpirationInMs = jwtExpirationInMs;
+    }
+
+    private String loadSecretFromFile(String filePath) {
+        try {
+            Path path = Paths.get(filePath);
+            if (!Files.exists(path)) {
+                // Generate a new secret key and write it to the file
+                byte[] randomBytes = new byte[32];
+                new SecureRandom().nextBytes(randomBytes);
+                String generatedSecret = Base64.getEncoder().encodeToString(randomBytes);
+                String content = "SECRET_KEY=" + generatedSecret + "\n";
+                Files.write(path, content.getBytes());
+
+                return generatedSecret;
+            }
+            // File exists, read all lines and search for the SECRET_KEY
+            List<String> lines = Files.readAllLines(path);
+            Optional<String> secretLine = lines.stream()
+                    .filter(line -> line.startsWith("SECRET_KEY="))
+                    .findFirst();
+            if (secretLine.isEmpty()) {
+                throw new SecretKeyNotFoundException("SECRET_KEY not found in " + filePath);
+            }
+            String secret = secretLine.get().split("=", 2)[1].trim();
+            if (secret.isEmpty()) {
+                throw new EmptySecretKeyException("SECRET_KEY in file '" + filePath + "' is empty.");
+            }
+            if (secret.getBytes().length < 32) {
+                throw new SecretKeyTooShortException("SECRET_KEY is too short. It must be at least 32 bytes.");
+            }
+            return secret;
+        } catch (IOException e) {
+            throw new RuntimeException("Error reading secret key from file: " + filePath, e);
+        }
     }
 
     public String extractUsername(String token) {
@@ -36,7 +85,15 @@ public class JwtUtil {
     }
 
     private Claims extractAllClaims(String token) {
-        return Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token).getBody();
+        try {
+            return Jwts.parserBuilder()
+                    .setSigningKey(secretKey)
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
+        } catch (JwtException e) {
+            throw new JwtDeserializationException("Failed to deserialize JWT: " + e.getMessage(), e);
+        }
     }
 
     private Boolean isTokenExpired(String token) {

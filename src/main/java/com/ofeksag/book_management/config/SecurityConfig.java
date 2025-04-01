@@ -39,15 +39,7 @@ public class SecurityConfig {
         return new JwtAuthenticationFilter(jwtUtil, userDetailsService);
     }
 
-    @Bean
-    public UserDetailsService userDetailsService() {
-        InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
-        manager.createUser(User.withUsername("admin")
-                .password(passwordEncoder().encode("adminpassword"))
-                .roles("ADMIN")
-                .build());
-        return manager;
-    }
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {
