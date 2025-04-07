@@ -7,6 +7,7 @@ import com.ofeksag.book_management.dto.ErrorResponseDTO;
 import io.jsonwebtoken.JwtException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.FieldError;
 import org.springframework.security.access.AccessDeniedException;
@@ -117,5 +118,14 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponseDTO, HttpStatus.UNAUTHORIZED);
     }
 
-
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<BookResponseDTO> handleHttpMessageNotReadableException(HttpMessageNotReadableException ex) {
+        Throwable cause = ex.getCause();
+        if (cause instanceof UnrecognizedPropertyException) {
+            BookResponseDTO response = new BookResponseDTO("Unrecognized one field or more. You should provide just: title, author, publish date, isbn.");
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+        BookResponseDTO response = new BookResponseDTO("Internal Server Error: " + ex.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }
