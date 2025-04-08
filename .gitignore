@@ -235,3 +235,5 @@ buildNumber.properties
 /project_structure.txt
 
 .env
+
+/data/

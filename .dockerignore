@@ -1,0 +1,18 @@
+# Maven output
+target/
+
+# Logs
+*.log
+
+# Environment files
+.env
+
+# IDE settings
+.idea/
+*.iml
+
+# OS files
+.DS_Store
+
+# H2 database folder (local)
+data/
