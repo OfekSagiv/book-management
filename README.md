@@ -3,6 +3,10 @@
 This project is a backend RESTful API for managing a digital book library.  
 It is built using **Java** and **Spring Boot**.
 
+You can check out the project including Swagger UI —  
+directly on my website:  
+[https://ofeksagiv.com](https://ofeksagiv.com)
+
 ---
 
 ## Requirements
@@ -93,53 +97,10 @@ To make it easier to explore the system, the application starts with:
 
 ### 5. Testing
 
-The project includes comprehensive integration tests divided into several categories. Below is an overview of the tests for each category:
+The project includes comprehensive integration tests divided into several categories.
+Below is an overview of the tests for each category:
 
-#### Authentication Tests
-- *loginSuccessShouldReturnToken:*  
-  Validates that a correct login returns a non-blank token.
-- *loginFailureShouldReturnUnauthorized:*  
-  Ensures that invalid credentials result in a 401 Unauthorized response.
-- *loginMissingPassword:*  
-  Verifies that a login attempt without a password returns 401 Unauthorized.
-
-#### Book Retrieval Tests
-- *testGetAllBooks:*  
-  Checks that both admin and user tokens can retrieve the list of books.
-- *testSeededBooksExist:*  
-  Verifies that the seeded books (initialized via DataInitializer) exist (at least 10 books).
-
-#### Book Creation Tests
-- *testCreateBookAsAdminSuccess:*  
-  Tests that an admin can successfully create a book.
-- *testCreateBookValidationError:*  
-  Validates that missing required fields (e.g., ISBN) return a 400 Bad Request.
-- *testCreateBookWithUnrecognizedField:*  
-  Ensures that sending an unknown field returns a 400 Bad Request with an appropriate message.
-- *testCreateBookAsUserShouldFail:*  
-  Verifies that a non-admin user is not allowed to create a book.
-- *testCreateBookWithBlankTitle:*  
-  Ensures that a blank title is rejected.
-- *testCreateBookWithBlankAuthor:*  
-  Ensures that a blank author is rejected.
-- *testCreateBookWithNullPublishedDate:*  
-  Ensures that a null published date is rejected.
-
-#### Book Update Tests
-- *testUpdateBook:*  
-  Tests updating an existing book using an admin token (success) and a user token (failure).
-- *testUpdateNonExistingBook:*  
-  Verifies that updating a non-existing book returns 404 Not Found.
-
-#### Book Deletion Tests
-- *testDeleteBook:*  
-  Validates that an admin can delete a book, and that a non-admin user cannot.
-
-#### Security Tests
-- *testAccessWithoutToken:*  
-  Checks that accessing protected endpoints without a token returns 401 Unauthorized.
-- *testAccessWithInvalidToken:*  
-  Ensures that an invalid token results in a 401 Unauthorized response.
+<img src="assets/images/doneTests.png" alt="App Preview" width="427" height="712"/><br/>
 
 To run all tests, execute:
 
