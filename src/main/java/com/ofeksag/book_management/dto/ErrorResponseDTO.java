@@ -1,7 +1,14 @@
 package com.ofeksag.book_management.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
+@Schema(description = "Error response structure returned for failed requests.")
 public class ErrorResponseDTO {
+
+    @Schema(description = "Short error code or type", example = "Unauthorized")
     private String error;
+
+    @Schema(description = "Detailed description of the error", example = "Invalid username or password")
     private String message;
 
     public ErrorResponseDTO() {
