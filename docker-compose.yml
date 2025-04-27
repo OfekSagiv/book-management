@@ -1,12 +1,18 @@
-version: '3.8'
+
 
 services:
-  app:
-    build: .
+  postgres:
+    image: postgres
+    container_name: postgres_container
     ports:
-      - "8080:8080"
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
     volumes:
-      - h2-data:/app/data
+      - postgres-data:/var/lib/postgresql/data
+    restart: unless-stopped
 
 volumes:
-  h2-data:
+  postgres-data:
