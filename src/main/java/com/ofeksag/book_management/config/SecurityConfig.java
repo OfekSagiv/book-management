@@ -25,7 +25,7 @@ public class SecurityConfig {
             throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/login", "/v3/api-docs/**",
+                        .requestMatchers("/","/auth/login", "/v3/api-docs/**",
                                 "/swagger-ui/**", "/swagger-ui.html").permitAll()
                         .requestMatchers("/api/books/**").authenticated()
                         .anyRequest().authenticated())
