@@ -10,14 +10,15 @@ public class BookManagementApplication {
 	public static void main(String[] args) {
 		Dotenv dotenv = Dotenv.configure().ignoreIfMissing().load();
 
-		setMandatory("DB_NAME", dotenv);
+		setMandatory("SECRET_KEY", dotenv);
 		setMandatory("DB_USERNAME", dotenv);
 		setMandatory("DB_PASSWORD", dotenv);
-
-		String port = dotenv.get("PORT");
-		if (port != null) {
-			System.setProperty("PORT", port);
-		}
+		setMandatory("DB_HOST", dotenv);
+		setMandatory("DB_PORT", dotenv);
+		setMandatory("DB_NAME", dotenv);
+		setMandatory("DB_USER", dotenv);
+		setMandatory("DB_PASS", dotenv);
+		setOptional("PORT", dotenv); // לא חובה אם לא קבעת ידנית
 
 		SpringApplication.run(BookManagementApplication.class, args);
 	}
@@ -29,5 +30,12 @@ public class BookManagementApplication {
 			System.exit(1);
 		}
 		System.setProperty(key, value);
+	}
+
+	private static void setOptional(String key, Dotenv dotenv) {
+		String value = dotenv.get(key);
+		if (value != null) {
+			System.setProperty(key, value);
+		}
 	}
 }
